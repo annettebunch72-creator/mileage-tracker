@@ -107,9 +107,10 @@ endButton.addEventListener('click', function () {
   }
 });
 function displayShiftHistory () {
+  console.log('UPDATED HISTORY FUNCTION IS RUNNING');
   shiftHistoryDisplay.innerHTML = '';
 
-  shiftHistory.forEach(function (shift) {
+  shiftHistory.slice(-10).reverse().forEach(function (shift) {
     const shiftItem = document.createElement('p');
     const shiftDate = new Date(shift.startTime);
 
@@ -124,3 +125,53 @@ function displayShiftHistory () {
 
   });
 }
+
+
+document.getElementById('exportCSV').addEventListener('click', function () {
+  if (shiftHistory.length === 0) {
+    alert('No shift history to export yet.');
+    return;
+  }
+
+  const headers = [
+    'Side Gig', 'Start Time', 'End Time',
+    'Starting Mileage', 'Ending Mileage', 'Total Miles',
+    'Earnings', 'Hours Worked', 'Hourly Rate', 'Earnings Per Mile'
+  ];
+
+  const rows = shiftHistory.map(function (shift) {
+    return [
+      shift.sideGig,
+      new Date(shift.startTime).toLocaleString(),
+      new Date(shift.endTime).toLocaleString(),
+      shift.startMileage,
+      shift.endMileage,
+      shift.totalMiles,
+      shift.earnings,
+      shift.shiftHours,
+      shift.hourlyRate,
+      shift.earningsPerMile
+    ];
+  });
+
+  const csv = [headers, ...rows]
+    .map(function (row) {
+      return row.map(function (value) {
+        return '"' + String(value ?? '').replace(/"/g, '""') + '"';
+      }).join(',');
+    })
+    .join('\r\n');
+
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+
+  link.href = url;
+  link.download = 'mileage-history.csv';
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  setTimeout(function () {
+    URL.revokeObjectURL(url);
+  }, 1000);
+});
