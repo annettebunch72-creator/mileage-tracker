@@ -93,6 +93,11 @@ endButton.addEventListener('click', function () {
     activeStartTime = null;
     activeSideGig = '';
     activeStartMileage = null;
+
+    sideGig.value = '';
+    startMileage.value = '';
+    endMileage.value = '';
+    earnings.value = '';
     
     console.log(shiftHistory);
     displayShiftHistory();
