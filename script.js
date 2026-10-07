@@ -175,3 +175,25 @@ document.getElementById('exportCSV').addEventListener('click', function () {
     URL.revokeObjectURL(url);
   }, 1000);
 });
+
+
+document.getElementById('clearHistory').addEventListener('click', function () {
+  if (shiftHistory.length === 0) {
+    alert('There is no shift history to clear.');
+    return;
+  }
+
+  const confirmed = confirm(
+    'Delete ALL saved shift history? This cannot be undone. Export your CSV first if you want a backup.'
+  );
+
+  if (!confirmed) {
+    return;
+  }
+
+  shiftHistory = [];
+  localStorage.removeItem('shiftHistory');
+  displayShiftHistory();
+
+  alert('Shift history cleared.');
+});
