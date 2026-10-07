@@ -93,11 +93,6 @@ endButton.addEventListener('click', function () {
     activeStartTime = null;
     activeSideGig = '';
     activeStartMileage = null;
-
-    sideGig.value = '';
-    startMileage.value = '';
-    endMileage.value = '';
-    earnings.value = '';
     
     console.log(shiftHistory);
     displayShiftHistory();
@@ -108,6 +103,12 @@ endButton.addEventListener('click', function () {
         ' | Time: ' + displayHours + ' hr ' + displayMinutes + ' min' +
         ' |$/mile: $' + earningsPerMile.toFixed(2) + 
         ' | $/hr: $' + hourlyRate.toFixed(2);
+
+    sideGig.value = '';
+    startMileage.value = '';
+    endMileage.value = '';
+    earnings.value = '';
+
     }
   }
 });
